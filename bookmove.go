@@ -29,10 +29,12 @@ func main() {
 
 			case !info.IsDir() && strings.Contains(path, ftps):
 				a := path[strings.LastIndex(path, "\\")+1:]
-				fmt.Printf(" name:\n %s\n", a)
-				// fmt.Printf(" name: %s\n", path)
-				// fmt.Printf("dir: %v: name: %s\n", info.IsDir(), path)
-				fcopy(path, sourcedir+root+ftps[1:]+"\\"+a)
+				// fmt.Printf(" \n name:\n %s\n", a)
+				fmt.Printf("\n source : %s\n", path)
+				fmt.Printf("\n  dest :  %s\n", sourcedir+root+ftps[1:]+"\\"+a)
+				if path != sourcedir+root+ftps[1:]+"\\"+a {
+					fcopy(path, sourcedir+root+ftps[1:]+"\\"+a)
+				}
 			}
 			return nil
 		})
