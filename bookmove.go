@@ -19,7 +19,7 @@ func scancopy(sdir, ddir string) string {
 
 	for _, ftps := range filetypes {
 
-		destdir := ddir + ftps[1:] + "\\"
+		destdir := ddir + ftps[1:] + "/"
 		// destdir := sourcedir + root + ftps[1:] + "\\"
 		os.MkdirAll(destdir, 0777)
 
@@ -31,13 +31,13 @@ func scancopy(sdir, ddir string) string {
 			switch {
 
 			case !info.IsDir() && strings.Contains(path, ftps):
-				a := path[strings.LastIndex(path, "\\")+1:]
+				a := path[strings.LastIndex(path, "/")+1:]
 				// fmt.Printf(" \n name:\n %s\n", a)
 				fmt.Printf("\n source : %s\n", path)
 				fulllist = fulllist + "\n" + path
-				fmt.Printf("\n  dest :  %s\n", ddir+ftps[1:]+"\\"+a)
-				if path != ddir+ftps[1:]+"\\"+a {
-					fcopy(path, ddir+ftps[1:]+"\\"+a)
+				fmt.Printf("\n  dest :  %s\n", ddir+ftps[1:]+"/"+a)
+				if path != ddir+ftps[1:]+"/"+a {
+					fcopy(path, ddir+ftps[1:]+"/"+a)
 				}
 			}
 			return nil
