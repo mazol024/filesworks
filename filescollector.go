@@ -27,48 +27,36 @@ func main() {
 	startdir := binding.NewString()
 	mypwd, _ := os.Getwd()
 	startdir.Set(mypwd)
-	// startdir.Set("sorce dir ")
 	dumpdir := binding.NewString()
 	dumpdir.Set(mypwd + pathsep + "allyourfiles" + pathsep)
 	infopan := binding.NewString()
 	infopan.Set("Information ...")
 
 	al := widget.NewLabel("From source folder")
-	// al := widget.NewLabelWithData(startdir)
 	ae := widget.NewEntryWithData(startdir)
 	bl := widget.NewLabel("To destination folder")
-	// bl := widget.NewLabelWithData(dumpdir)
 	be := widget.NewEntryWithData(dumpdir)
 	txts := widget.NewEntryWithData(infopan)
+	txts.Text = "Files copied: "
 
-	button1 := widget.NewButton("Run Collect",
+	button1 := widget.NewButton("Collect files",
 		func() {
-			// a, _ := startdir.Get()
-			// output, _ := os.ReadDir(a)
-			// longlist := ""
-			// for _, i := range output {
-			// 	longlist = longlist + "\n" + i.Name()
-			// }
-			// infopan.Set(" Button pressed \n" + longlist)
 			x, _ := startdir.Get()
 			y, _ := dumpdir.Get()
 			ll := scancopy(x, y, pathsep)
 			infopan.Set(ll)
 		})
-	button1.Resize(fyne.NewSize(50, 20))
-	bgridh := container.NewGridWithColumns(4, button1)
-	bgridv := container.NewGridWithRows(4, bgridh)
-
 	topblock := container.NewGridWithColumns(2,
-		container.NewVBox(al, ae),
-		container.NewVBox(bl, be),
+		container.NewVBox(al, ae, container.NewGridWithColumns(4, button1)),
+		container.NewVBox(bl, be, widget.NewLabel("")),
 	)
-	bottomblock := container.NewMax(txts)
-	comby := container.NewGridWithColumns(1, topblock, bottomblock, bgridv)
+
+	textblock := container.NewMax(txts)
+	comby := container.NewGridWithColumns(1, topblock, textblock)
 	w.SetContent(
 		comby,
 	)
-	w.Resize(fyne.Size{Width: 640, Height: 480})
+	w.Resize(fyne.Size{Width: 640, Height: 320})
 	w.ShowAndRun()
 
 }
