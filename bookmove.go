@@ -9,18 +9,15 @@ import (
 	"strings"
 )
 
-func scancopy(sdir, ddir string) string {
+func scancopy(sdir, ddir, pathsep string) string {
+
 	fulllist := ""
 	sourcedir := sdir
-	// sourcedir, _ := os.Getwd()
-	// root := "\\yourdocshere\\"
 	filetypes := []string{".epub", ".pdf", ".docx"}
-	// filetypes := []string{".epub", ".pdf", ".docx", ".txt"}
 
 	for _, ftps := range filetypes {
 
-		destdir := ddir + ftps[1:] + "/"
-		// destdir := sourcedir + root + ftps[1:] + "\\"
+		destdir := ddir + ftps[1:] + pathsep
 		os.MkdirAll(destdir, 0777)
 
 		err := filepath.Walk(sourcedir, func(path string, info os.FileInfo, err error) error {
@@ -35,9 +32,9 @@ func scancopy(sdir, ddir string) string {
 				// fmt.Printf(" \n name:\n %s\n", a)
 				fmt.Printf("\n source : %s\n", path)
 				fulllist = fulllist + "\n" + path
-				fmt.Printf("\n  dest :  %s\n", ddir+ftps[1:]+"/"+a)
-				if path != ddir+ftps[1:]+"/"+a {
-					fcopy(path, ddir+ftps[1:]+"/"+a)
+				fmt.Printf("\n  dest :  %s\n", ddir+ftps[1:]+pathsep+a)
+				if path != ddir+ftps[1:]+pathsep+a {
+					fcopy(path, ddir+ftps[1:]+pathsep+a)
 				}
 			}
 			return nil

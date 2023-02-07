@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"runtime"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -10,7 +11,16 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+var pathsep string
+
 func main() {
+	switch runtime.GOOS {
+	case "windows":
+		pathsep = "\\"
+	default:
+		pathsep = "/"
+
+	}
 
 	myApp := app.New()
 	w := myApp.NewWindow("Files collector")
@@ -19,7 +29,7 @@ func main() {
 	startdir.Set(mypwd)
 	// startdir.Set("sorce dir ")
 	dumpdir := binding.NewString()
-	dumpdir.Set(mypwd + "/" + "allyourfiles/")
+	dumpdir.Set(mypwd + pathsep + "allyourfiles" + pathsep)
 	infopan := binding.NewString()
 	infopan.Set("Information ...")
 
@@ -42,12 +52,13 @@ func main() {
 			// infopan.Set(" Button pressed \n" + longlist)
 			x, _ := startdir.Get()
 			y, _ := dumpdir.Get()
-			ll := scancopy(x, y)
+			ll := scancopy(x, y, pathsep)
 			infopan.Set(ll)
 		})
-
+	button1.Resize(fyne.NewSize(50, 20))
 	bgridh := container.NewGridWithColumns(4, button1)
 	bgridv := container.NewGridWithRows(4, bgridh)
+
 	topblock := container.NewGridWithColumns(2,
 		container.NewVBox(al, ae),
 		container.NewVBox(bl, be),
@@ -57,7 +68,7 @@ func main() {
 	w.SetContent(
 		comby,
 	)
-	w.Resize(fyne.Size{640, 480})
+	w.Resize(fyne.Size{Width: 640, Height: 480})
 	w.ShowAndRun()
 
 }
