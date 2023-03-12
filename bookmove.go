@@ -28,7 +28,7 @@ func scancopy(sdir, ddir, pathsep string) string {
 			switch {
 
 			case !info.IsDir() && strings.Contains(path, ftps):
-				a := path[strings.LastIndex(path, "/")+1:]
+				a := path[strings.LastIndex(path, "\\")+1:]
 				// fmt.Printf(" \n name:\n %s\n", a)
 				fmt.Printf("\n source : %s\n", path)
 				fulllist = fulllist + "\n" + path
